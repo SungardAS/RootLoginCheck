@@ -1,13 +1,6 @@
-AWSTemplateFormatVersion: 2010-09-09
-Description: >-
-  This sample, non-production-ready AWS CloudFormation template creates an
-  Amazon SNS Topic, Amazon CloudWatch Event Rule and an AWS Lambda function to
-  monitor API activity by AWS account root user and send an email notification
-  to the SNS subscribers about the activity. (c) 2016 Amazon Web Services, Inc.
-  or its affiliates. All Rights Reserved. This AWS Content is provided subject
-  to the terms of the AWS Customer Agreement available at
-  http://aws.amazon.com/agreement or other written agreement between Customer
-  and Amazon Web Services, Inc.
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Cloudformation to Build Root Login Check
 Metadata:
   'AWS::CloudFormation::Interface':
     ParameterGroups:
@@ -53,7 +46,7 @@ Resources:
             - Arn
           Id: !Ref 'AWS::StackName'
   RootActivityLambda:
-    Type: 'AWS::Lambda::Function'
+    Type: AWS::Serverless::Function
     Properties:
       FunctionName: SungardAS-RootActivityCheck
       CodeUri: ./src
