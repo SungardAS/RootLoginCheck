@@ -53,7 +53,7 @@ Resources:
             - Arn
           Id: !Ref 'AWS::StackName'
   RootActivityLambda:
-    Type: AWS::Serverless::Function
+    Type: 'AWS::Lambda::Function'
     Properties:
       FunctionName: SungardAS-RootActivityCheck
       CodeUri: ./src
