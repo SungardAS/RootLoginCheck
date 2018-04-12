@@ -3,7 +3,7 @@ phases:
   install:
     commands:
       - npm install time
-      #- cd src; npm install; cd ..
+      - cd src; pip install -r requirements.txt -t .; cd ..
   build:
     commands:
       - npm install time
