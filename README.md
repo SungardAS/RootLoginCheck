@@ -1,15 +1,27 @@
 
-# Alert Trigger
+# Root Login Check
 
-Alert Trigger that Sends alert messages to Alert Kinesis Stream
+Check to look for Root login attempts
 
-![aws-services][aws-services-image]
+
+
+## Installation Options
+
+- [Prerequisites](#prerequisites-for-setup)
+- [Pipeline](#setup-codepipeline) - Setup a Pipeline that automatically updates when source is updated.
+- [CloudFormation](#setup-using-cloudformation) - Setup dedicated Stack with CloudFormation.  Code is not auto-updated.
 
 ## Prerequisites For Setup
 
+### Cloudtrail
+
+By default, Root login events go to Cloudtrail in us-east-1.  Cloudtrail must be enabled in 'us-east-1' or Cloudtrail for all regions must be enabled in the region where the Root Login check is run.
+
+### Alert Log Destination
+
 If this project is deployed in an account that is different from the main account where the Alert System was deployed, we need to add a permission for the account to access the Destination in the main account.
 
-  - Go to the Lambda console of the main account and ‘us-east-1’ region
+  - Go to the Lambda console of the main account and in the ‘us-east-1’ region
 
   - Find a function called ‘SungardAS-Alerts- Permission-xxxx’ and configure the test event as below:
 
@@ -24,7 +36,7 @@ If this project is deployed in an account that is different from the main accoun
   - Run Test to execute this lambda function
 
 
-## How To Setup a CodePipeline
+## Setup CodePipeline
 
 Create a stack using 'codepipeline.yaml' using below input values
 
@@ -48,7 +60,49 @@ Input Parameter Values
 
 - GitHubSourceRepositoryOwner: `SungardAS`
 
-- ProjectImage: `aws/codebuild/nodejs:4.3.2`
+- ProjectImage: `aws/codebuild/python:2.7.12`
+
+
+## Setup using CloudFormation
+
+### Prep Lambda Code
+
+1. Create a ZIP file of the source code files in RootActivityLambda.  The files should be in the root of the zip file.
+
+2. Upload the file to your favorite S3 bucket
+
+
+
+### Crate CloudFormation Stack
+
+Create a Cloudformation stack using 'RootAPIMonitor.yaml' using below input values
+
+Input Parameter Values
+
+- CloudWatchLogDestinationArn:
+
+  ARN of Cloudwatch Log in remote account where Cloudwatch log subscription will send log info.
+
+- CloudWatchLogGroupName:
+
+  Name of a local Cloudwatch Log Group where this trigger sends alert messages
+
+- LambdaTimeout
+
+  Enter a timeout value in seconds for the lambda function. Min is 3, max is 300 and default is 60.
+
+- LambdaS3Bucket:
+
+  Name of the S3 bucket where the lambda function is stored
+
+- LambdaS3Key:
+
+  Name of the S3 key of the Lambda function (include the prefix as well)
+
+
+
+
+
 
 ## [![Sungard Availability Services | Labs][labs-logo]][labs-github-url]
 
