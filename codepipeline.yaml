@@ -329,7 +329,7 @@ Resources:
                       - !Ref GitHubSourceRepositoryName
                       - "changeset"
                 RoleArn: !GetAtt CloudformationLambdaExecutionRole.Arn
-                Capabilities: CAPABILITY_IAM
+                Capabilities: CAPABILITY_NAMED_IAM
                 StackName: !Join
                     - '-'
                     - - !Ref GitHubSourceRepositoryOwner

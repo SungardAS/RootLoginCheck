@@ -24,6 +24,16 @@ Resources:
         - "/"
         - - !Ref CloudWatchLogGroupName
           - !Ref AWS::Region
+  SubscriptionFilter:
+    Type: AWS::Logs::SubscriptionFilter
+    DependsOn: CloudWatchLogGroup
+    Properties:
+      LogGroupName: !Join
+        - "/"
+        - - !Ref CloudWatchLogGroupName
+          - !Ref AWS::Region
+      FilterPattern: ""
+      DestinationArn: !Ref CloudWatchLogDestinationArn
   EventsRule:
     Type: 'AWS::Events::Rule'
     Properties:
