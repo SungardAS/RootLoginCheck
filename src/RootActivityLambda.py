@@ -70,10 +70,11 @@ def lambda_handler(event, context):
     # Send alert to Cloudwatch log
     message="Root login detected from IP "+sourceip + "\n\n## Event Details\n"+json.dumps(event)
     subject="Root console login detected in account "+accntAliase
+    probability=100
     
     logMessage = {
-        "awsid": context.invoked_function_arn.split(":")[4],
-        "region": os.environ['AWS_DEFAULT_REGION'],
+        "awsid": event['account'],
+        "region": event['region'],
         "subject": subject,
         "message": message,
         "sentBy": context.invoked_function_arn
