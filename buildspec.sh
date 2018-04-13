@@ -1,7 +1,7 @@
 
 source .env.local
 
-cd src; npm install; cd ..
+cd src; cd ..
 
 aws cloudformation package \
    --template-file ./template.yaml \
